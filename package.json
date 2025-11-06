@@ -1,0 +1,11 @@
+{
+  "name": "contracts",
+  "packageManager": "npm@latest",
+  "scripts": {
+    "gen": "openapi --input ./tester/v1/openapi.yaml --output ./tester/v1 --client fetch --name tester --useOptions"
+  },
+  "devDependencies": {
+    "openapi-typescript-codegen": "^0.29.0",
+    "typescript": "^5.9.2"
+  }
+}

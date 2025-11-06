@@ -1,0 +1,1254 @@
+openapi: 3.0.3
+info:
+  title: TesterService API
+  version: 0.0.1
+paths:
+  /problems:
+    get:
+      operationId: ListProblems
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+          example: 10
+        - name: title
+          in: query
+          schema:
+            type: string
+        - name: order
+          in: query
+          schema:
+            type: integer
+            format: int32
+            example: 1
+        - name: owner
+          in: query
+          schema:
+            type: string
+          example: "me"
+          description: "Filter by owner. Use 'me' to get user's private problems"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListProblemsResponse"
+    post:
+      operationId: CreateProblem
+      parameters:
+        - name: title
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "Problem 1"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreationResponse"
+  /problems/{id}:
+    get:
+      operationId: GetProblem
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetProblemResponse"
+    delete:
+      operationId: DeleteProblem
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content: {}
+    patch:
+      operationId: UpdateProblem
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProblemRequest"
+      responses:
+        "200":
+          description: OK
+          content: {}
+    post:
+      operationId: UploadProblem
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UploadProblemRequest"
+      responses:
+        "200":
+          description: OK
+          content: {}
+
+  /contests:
+    get:
+      operationId: ListContests
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+          example: 10
+        - name: title
+          in: query
+          schema:
+            type: string
+          example: "Contest"
+        - name: owner
+          in: query
+          schema:
+            type: string
+          example: "me"
+          description: "Filter by owner. Use 'me' to get user's private contests"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListContestsResponse"
+    post:
+      operationId: CreateContest
+      parameters:
+        - name: title
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "Contest 1"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreationResponse"
+  /contests/{contest_id}:
+    get:
+      operationId: GetContest
+      parameters:
+        - name: contest_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetContestResponse"
+    delete:
+      operationId: DeleteContest
+      parameters:
+        - name: contest_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+    patch:
+      operationId: UpdateContest
+      parameters:
+        - name: contest_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateContestRequest"
+      responses:
+        "200":
+          description: OK
+  /contests/{contest_id}/problems:
+    post:
+      operationId: CreateContestProblem
+      parameters:
+        - name: contest_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: problem_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreationResponse"
+  /contests/{contest_id}/problems/{problem_id}:
+    get:
+      operationId: GetContestProblem
+      parameters:
+        - name: problem_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: contest_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetContestProblemResponse"
+    delete:
+      operationId: DeleteContestProblem
+      parameters:
+        - name: problem_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: contest_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+  /contests/{contest_id}/participants:
+    get:
+      operationId: ListParticipants
+      parameters:
+        - name: contest_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+          example: 10
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListUsersResponse"
+    post:
+      operationId: CreateParticipant
+      parameters:
+        - name: contest_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: user_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreationResponse"
+    delete:
+      operationId: DeleteParticipant
+      parameters:
+        - name: user_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: contest_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+  /solutions:
+    post:
+      operationId: CreateSolution
+      parameters:
+        - name: problem_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: contest_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: language
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+          example: 1
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/CreateSolutionRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreationResponse"
+    get:
+      operationId: ListSolutions
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+          example: 10
+        - name: contestId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: problemId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: state
+          in: query
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: order
+          in: query
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: language
+          in: query
+          schema:
+            type: integer
+            format: int32
+          example: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListSolutionsResponse"
+  /solutions/{solution_id}:
+    get:
+      operationId: GetSolution
+      parameters:
+        - name: solution_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetSolutionResponse"
+  /contests/{contest_id}/monitor:
+    get:
+      operationId: GetMonitor
+      parameters:
+        - name: contest_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetMonitorResponse"
+  /health:
+    get:
+      operationId: GetHealth
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
+                  message:
+                    type: string
+                    example: "Backend is running"
+  /users/me:
+    get:
+      operationId: GetMe
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetUserResponse"
+  /users:
+    get:
+      operationId: GetUsers
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+          example: 10
+        - name: search
+          in: query
+          schema:
+            type: string
+          example: "john"
+        - name: role
+          in: query
+          schema:
+            type: string
+          example: "admin"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListUsersResponse"
+  /users/{id}:
+    get:
+      operationId: GetUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetUserResponse"
+components:
+  schemas:
+    CreationResponse:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: uuid
+    Pagination:
+      type: object
+      required:
+        - page
+        - total
+      properties:
+        page:
+          type: integer
+          format: int32
+          example: 1
+        total:
+          type: integer
+          format: int32
+          example: 10
+    Problem:
+      type: object
+      required:
+        - id
+        - title
+        - time_limit
+        - memory_limit
+
+        - legend
+        - input_format
+        - output_format
+        - notes
+        - scoring
+
+        - legend_html
+        - input_format_html
+        - output_format_html
+        - notes_html
+        - scoring_html
+
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          example: "Test problem"
+        time_limit:
+          type: integer
+          format: int32
+          example: 1000
+        memory_limit:
+          type: integer
+          format: int32
+          example: 256
+
+        legend:
+          type: string
+        input_format:
+          type: string
+        output_format:
+          type: string
+        notes:
+          type: string
+        scoring:
+          type: string
+
+        legend_html:
+          type: string
+        input_format_html:
+          type: string
+        output_format_html:
+          type: string
+        notes_html:
+          type: string
+        scoring_html:
+          type: string
+
+        is_private:
+          type: boolean
+          example: true
+
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ProblemsListItem:
+      type: object
+      required:
+        - id
+        - title
+        - memory_limit
+        - time_limit
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        memory_limit:
+          type: integer
+          format: int32
+        time_limit:
+          type: integer
+          format: int32
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ListProblemsResponse:
+      type: object
+      required:
+        - problems
+        - pagination
+      properties:
+        problems:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProblemsListItem"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+    GetProblemResponse:
+      type: object
+      required:
+        - problem
+      properties:
+        problem:
+          $ref: "#/components/schemas/Problem"
+    ContestProblem:
+      type: object
+      required:
+        - problem_id
+        - title
+        - time_limit
+        - memory_limit
+
+        - position
+
+        - legend_html
+        - input_format_html
+        - output_format_html
+        - notes_html
+        - scoring_html
+
+        - created_at
+        - updated_at
+      properties:
+        problem_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          example: "Test problem"
+        time_limit:
+          type: integer
+          format: int32
+          example: 1000
+        memory_limit:
+          type: integer
+          format: int32
+          example: 256
+
+        position:
+          type: integer
+          format: int32
+
+        legend_html:
+          type: string
+        input_format_html:
+          type: string
+        output_format_html:
+          type: string
+        notes_html:
+          type: string
+        scoring_html:
+          type: string
+
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    GetContestProblemResponse:
+      type: object
+      required:
+        - problem
+      properties:
+        problem:
+          $ref: "#/components/schemas/ContestProblem"
+    Contest:
+      type: object
+      required:
+        - id
+        - title
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          example: "Test contest"
+        is_private:
+          type: boolean
+          example: true
+        monitor_enabled:
+          type: boolean
+          example: false
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ListContestsResponse:
+      type: object
+      required:
+        - contests
+        - pagination
+      properties:
+        contests:
+          type: array
+          items:
+            $ref: "#/components/schemas/Contest"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+    ContestProblemListItem:
+      type: object
+      required:
+        - problem_id
+        - position
+        - title
+        - memory_limit
+        - time_limit
+        - created_at
+        - updated_at
+      properties:
+        problem_id:
+          type: string
+          format: uuid
+        position:
+          type: integer
+          format: int32
+        title:
+          type: string
+          example: "Test task"
+        memory_limit:
+          type: integer
+          format: int32
+          example: 256
+        time_limit:
+          type: integer
+          format: int32
+          example: 1000
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    GetContestResponse:
+      type: object
+      required:
+        - contest
+        - problems
+      properties:
+        contest:
+          $ref: "#/components/schemas/Contest"
+        problems:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContestProblemListItem"
+    UpdateProblemRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Test problem"
+        legend:
+          type: string
+        input_format:
+          type: string
+        output_format:
+          type: string
+        notes:
+          type: string
+        scoring:
+          type: string
+        memory_limit:
+          type: integer
+          format: int32
+          example: 256
+        time_limit:
+          type: integer
+          format: int32
+          example: 1000
+        is_private:
+          type: boolean
+          example: true
+    UploadProblemRequest:
+      type: object
+      required:
+        - archive
+      properties:
+        archive:
+          type: string
+          format: binary
+    UpdateContestRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Test contest"
+        is_private:
+          type: boolean
+          example: true
+        monitor_enabled:
+          type: boolean
+          example: false
+    CreateSolutionRequest:
+      type: object
+      required:
+        - solution
+      properties:
+        solution:
+          type: string
+          format: binary
+    ListSolutionsResponse:
+      type: object
+      required:
+        - solutions
+        - pagination
+      properties:
+        access-token:
+          type: string
+        solutions:
+          type: array
+          items:
+            $ref: "#/components/schemas/SolutionsListItem"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+    SolutionsListItem:
+      type: object
+      required:
+        - id
+
+        - user_id
+        - username
+
+        - state
+        - score
+        - penalty
+        - time_stat
+        - memory_stat
+        - language
+
+        - problem_id
+        - problem_title
+
+        - position
+
+        - contest_id
+        - contest_title
+
+        - updated_at
+        - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+
+        user_id:
+          type: string
+          format: uuid
+        username:
+          type: string
+          example: "user123"
+
+        state:
+          type: integer
+          format: int32
+          example: 1
+        score:
+          type: integer
+          format: int32
+          example: 100
+        penalty:
+          type: integer
+          format: int32
+          example: 28
+        time_stat:
+          type: integer
+          format: int32
+          example: 1000
+        memory_stat:
+          type: integer
+          format: int32
+          example: 256
+        language:
+          type: integer
+          format: int32
+          example: 1
+
+        problem_id:
+          type: string
+          format: uuid
+        problem_title:
+          type: string
+          example: "Task title"
+
+        position:
+          type: integer
+          format: int32
+          example: 1
+
+        contest_id:
+          type: string
+          format: uuid
+        contest_title:
+          type: string
+          example: "Contest title"
+
+        updated_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+    Solution:
+      type: object
+      required:
+        - id
+
+        - user_id
+        - username
+
+        - solution
+
+        - state
+        - score
+        - penalty
+        - time_stat
+        - memory_stat
+        - language
+
+        - problem_id
+        - problem_title
+
+        - position
+
+        - contest_id
+        - contest_title
+
+        - updated_at
+        - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+
+        user_id:
+          type: string
+          format: uuid
+        username:
+          type: string
+          example: "user123"
+
+        solution:
+          type: string
+          example: 'print("Hello, world!")'
+
+        state:
+          type: integer
+          format: int32
+          example: 1
+        score:
+          type: integer
+          format: int32
+          example: 100
+        penalty:
+          type: integer
+          format: int32
+          example: 28
+        time_stat:
+          type: integer
+          format: int32
+          example: 1000
+        memory_stat:
+          type: integer
+          format: int32
+          example: 256
+        language:
+          type: integer
+          format: int32
+          example: 1
+
+        problem_id:
+          type: string
+          format: uuid
+        problem_title:
+          type: string
+          example: "Task title"
+
+        position:
+          type: integer
+          format: int32
+          example: 1
+
+        contest_id:
+          type: string
+          format: uuid
+        contest_title:
+          type: string
+          example: "Contest title"
+
+        updated_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+    GetSolutionResponse:
+      type: object
+      required:
+        - solution
+      properties:
+        solution:
+          $ref: "#/components/schemas/Solution"
+    GetMonitorResponse:
+      type: object
+      required:
+        - participants
+        - summary
+      properties:
+        participants:
+          type: array
+          items:
+            $ref: "#/components/schemas/ParticipantsStat"
+        summary:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProblemStatSummary"
+    ProblemStatSummary:
+      type: object
+      required:
+        - problem_id
+        - position
+        - s_attempts
+        - f_attempts
+        - t_attempts
+      properties:
+        problem_id:
+          type: string
+          format: uuid
+        position:
+          type: integer
+          format: int32
+          example: 1
+        s_attempts:
+          type: integer
+          format: int32
+          example: 1
+        f_attempts:
+          type: integer
+          format: int32
+          example: 1
+        t_attempts:
+          type: integer
+          format: int32
+          example: 1
+    ParticipantsStat:
+      type: object
+      required:
+        - user_id
+        - username
+        - solved
+        - penalty
+        - attempts
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        username:
+          type: string
+          example: "user123"
+        solved:
+          type: integer
+          format: int32
+          example: 1
+        penalty:
+          type: integer
+          format: int32
+          example: 28
+        attempts:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProblemAttempts"
+    ProblemAttempts:
+      type: object
+      required:
+        - problem_id
+        - failed_attempts
+        - state
+        - position
+      properties:
+        problem_id:
+          type: string
+          format: uuid
+          example: 1
+        position:
+          type: integer
+          format: int32
+          example: 1
+        failed_attempts:
+          type: integer
+          format: int32
+          example: 1
+        state:
+          type: integer
+          format: int32
+          nullable: true
+          example: 1
+    GetUserResponse:
+      type: object
+      required:
+        - user
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+    User:
+      type: object
+      required:
+        - id
+        - username
+        - createdAt
+        - updatedAt
+        - role
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+          example: user123
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        role:
+          type: string
+    ListUsersResponse:
+      type: object
+      required:
+        - users
+        - pagination
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+  # securitySchemes:
+  #   cookieAuth:
+  #     type: apiKey
+  #     in: cookie
+  #     name: ory_kratos_session
