@@ -296,7 +296,10 @@ type ListProblemsParams struct {
 	Page     int32   `form:"page" json:"page"`
 	PageSize int32   `form:"pageSize" json:"pageSize"`
 	Title    *string `form:"title,omitempty" json:"title,omitempty"`
-	Order    *int32  `form:"order,omitempty" json:"order,omitempty"`
+
+	// Search Search problems by title using Typesense (full-text search with typo tolerance)
+	Search *string `form:"search,omitempty" json:"search,omitempty"`
+	Order  *int32  `form:"order,omitempty" json:"order,omitempty"`
 
 	// Owner Filter by owner. Use 'me' to get user's private problems
 	Owner *string `form:"owner,omitempty" json:"owner,omitempty"`
@@ -867,6 +870,13 @@ func (siw *ServerInterfaceWrapper) ListProblems(c *fiber.Ctx) error {
 	err = runtime.BindQueryParameter("form", true, false, "title", query, &params.Title)
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("Invalid format for parameter title: %w", err).Error())
+	}
+
+	// ------------- Optional query parameter "search" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "search", query, &params.Search)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("Invalid format for parameter search: %w", err).Error())
 	}
 
 	// ------------- Optional query parameter "order" -------------

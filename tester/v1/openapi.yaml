@@ -25,6 +25,12 @@ paths:
           in: query
           schema:
             type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+          example: "Fibonacci"
+          description: "Search problems by title using Typesense (full-text search with typo tolerance)"
         - name: order
           in: query
           schema:

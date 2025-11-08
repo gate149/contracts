@@ -29,12 +29,17 @@ export class DefaultService {
         page,
         pageSize,
         title,
+        search,
         order,
         owner,
     }: {
         page: number,
         pageSize: number,
         title?: string,
+        /**
+         * Search problems by title using Typesense (full-text search with typo tolerance)
+         */
+        search?: string,
         order?: number,
         /**
          * Filter by owner. Use 'me' to get user's private problems
@@ -48,6 +53,7 @@ export class DefaultService {
                 'page': page,
                 'pageSize': pageSize,
                 'title': title,
+                'search': search,
                 'order': order,
                 'owner': owner,
             },
