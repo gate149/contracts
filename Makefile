@@ -18,8 +18,8 @@ go-dependencies: check-go go.sum go.mod
 # Generate Go code from OpenAPI spec (using oapi-codegen)
 go-gen: go-dependencies
 	@echo "Generating Go server code..."
-	@go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen -config cfg.yaml ./tester/v1/openapi.yaml
-	@echo "Success: Go code generated: tester/v1/tester.go"
+	@go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen -config cfg.yaml ./core/v1/openapi.yaml
+	@echo "Success: Go code generated: core/v1/core.go"
 
 # Install Node dependencies
 ts-dependencies: check-npm package.json
@@ -31,11 +31,11 @@ ts-gen: ts-dependencies
 	@echo "Generating TypeScript client code..."
 	@npm run gen
 	@echo "Success: TypeScript code generated:"
-	@echo "   - tester/v1/tester.ts"
-	@echo "   - tester/v1/index.ts"
-	@echo "   - tester/v1/models/"
-	@echo "   - tester/v1/services/"
-	@echo "   - tester/v1/core/"
+	@echo "   - core/v1/core.ts"
+	@echo "   - core/v1/index.ts"
+	@echo "   - core/v1/models/"
+	@echo "   - core/v1/services/"
+	@echo "   - core/v1/core/"
 
 # Install all dependencies
 dependencies: go-dependencies ts-dependencies
@@ -48,12 +48,12 @@ all: go-gen ts-gen
 # Clean generated files
 clean:
 	@echo "Cleaning generated files..."
-	@rm -rf ./tester/v1/tester.go \
-		./tester/v1/tester.ts \
-		./tester/v1/index.ts \
-		./tester/v1/models \
-		./tester/v1/services \
-		./tester/v1/core
+	@rm -rf ./core/v1/core.go \
+		./core/v1/core.ts \
+		./core/v1/index.ts \
+		./core/v1/models \
+		./core/v1/services \
+		./core/v1/core
 	@echo "Success: Cleaned"
 
 # Show help

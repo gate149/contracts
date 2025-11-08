@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: TesterService API
+  title: CoreService API
   version: 0.0.1
 paths:
   /problems:
@@ -164,6 +164,13 @@ paths:
             type: string
           example: "me"
           description: "Filter by owner. Use 'me' to get user's private contests"
+        - name: descending
+          in: query
+          schema:
+            type: boolean
+            default: false
+          example: false
+          description: "Sort order by creation date. true = newest first (DESC), false = oldest first (ASC)"
       responses:
         "200":
           description: OK

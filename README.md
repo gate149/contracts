@@ -24,22 +24,6 @@ npm install          # Install dependencies
 npm run gen          # Generate TypeScript client only
 ```
 
-## Structure
-
-```
-contracts/
-├── cfg.yaml                    # oapi-codegen config for Go
-├── package.json                # npm scripts and dependencies
-└── tester/v1/
-    ├── openapi.yaml           # OpenAPI 3.0 specification (source of truth)
-    ├── tester.go              # Generated Go server (Fiber)
-    ├── tester.ts              # Generated TypeScript client class
-    ├── index.ts               # Main TypeScript exports
-    ├── models/                # TypeScript type definitions (34 files)
-    ├── services/              # TypeScript API service methods
-    └── core/                  # TypeScript core utilities (HTTP client, etc.)
-```
-
 ## Generators
 
 ### Go Server
@@ -59,25 +43,7 @@ contracts/
 ### TypeScript Client
 
 ```typescript
-import { tester } from "../../contracts/tester/v1/tester";
-
-// Create client
-const client = new tester({
-  BASE: "http://localhost:13000",
-  CREDENTIALS: "include",
-  HEADERS: {
-    "X-User-ID": userId,
-  },
-});
-
-// Make API calls
-const problems = await client.default.listProblems({ page: 1, pageSize: 10 });
-```
-
-### With Types
-
-```typescript
-import type { Problem, GetProblemResponse } from "../../contracts/tester/v1";
+import type { Problem, GetProblemResponse } from "../../contracts/core/v1";
 
 const response: GetProblemResponse = await client.default.getProblem({
   id: problemId,
@@ -87,7 +53,7 @@ const response: GetProblemResponse = await client.default.getProblem({
 ### Go Server
 
 ```go
-import testerv1 "github.com/Vyacheslav1557/contracts/tester/v1"
+import corev1 "github.com/gate149/contracts/core/v1"
 
 // Implement ServerInterface
 type Handlers struct {
@@ -95,7 +61,7 @@ type Handlers struct {
 }
 
 func (h *Handlers) UpdateProblem(c *fiber.Ctx, id openapi_types.UUID) error {
-    var req testerv1.UpdateProblemRequest
+    var req corev1.UpdateProblemRequest
     if err := c.BodyParser(&req); err != nil {
         return err
     }
@@ -104,28 +70,5 @@ func (h *Handlers) UpdateProblem(c *fiber.Ctx, id openapi_types.UUID) error {
 }
 
 // Register handlers
-testerv1.RegisterHandlers(app, handlers)
-```
-
-## Development Workflow
-
-1. Edit `tester/v1/openapi.yaml`
-2. Run `make all` to regenerate code
-3. Update imports in your application
-4. Test changes
-
-## Configuration
-
-### TypeScript Generator
-- `--client fetch` - Native Fetch API
-- `--useOptions` - Options object for parameters
-- `--name tester` - Base class name
-
-### Go Generator (cfg.yaml)
-```yaml
-package: testerv1
-generate:
-  fiber-server: true
-  models: true
-output: ./tester/v1/tester.go
+corev1.RegisterHandlers(app, handlers)
 ```

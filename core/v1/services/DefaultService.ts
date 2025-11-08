@@ -161,6 +161,7 @@ export class DefaultService {
         pageSize,
         title,
         owner,
+        descending = false,
     }: {
         page: number,
         pageSize: number,
@@ -169,6 +170,10 @@ export class DefaultService {
          * Filter by owner. Use 'me' to get user's private contests
          */
         owner?: string,
+        /**
+         * Sort order by creation date. true = newest first (DESC), false = oldest first (ASC)
+         */
+        descending?: boolean,
     }): CancelablePromise<ListContestsResponse> {
         return this.httpRequest.request({
             method: 'GET',
@@ -178,6 +183,7 @@ export class DefaultService {
                 'pageSize': pageSize,
                 'title': title,
                 'owner': owner,
+                'descending': descending,
             },
         });
     }
