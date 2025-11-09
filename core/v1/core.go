@@ -17,8 +17,8 @@ import (
 type Contest struct {
 	CreatedAt      time.Time          `json:"created_at"`
 	Id             openapi_types.UUID `json:"id"`
-	IsPrivate      *bool              `json:"is_private,omitempty"`
-	MonitorEnabled *bool              `json:"monitor_enabled,omitempty"`
+	IsPrivate      bool               `json:"is_private"`
+	MonitorEnabled bool               `json:"monitor_enabled"`
 	Title          string             `json:"title"`
 	UpdatedAt      time.Time          `json:"updated_at"`
 }
