@@ -905,6 +905,10 @@ components:
           format: binary
     UpdateContestRequest:
       type: object
+      required:
+        - title
+        - is_private
+        - monitor_enabled
       properties:
         title:
           type: string
