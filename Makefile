@@ -17,8 +17,9 @@ go-dependencies: check-go go.sum go.mod
 
 # Generate Go code from OpenAPI spec (using oapi-codegen)
 go-gen: go-dependencies
-	@echo "Generating Go server code..."
-	@go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen -config cfg.yaml ./core/v1/openapi.yaml
+	@echo "Generating Go server & client code..."
+	@go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen -config cfg-server.yaml ./core/v1/openapi.yaml
+	@go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen -config cfg-client.yaml ./core/v1/openapi.yaml
 	@echo "Success: Go code generated: core/v1/core.go"
 
 # Install Node dependencies
@@ -53,7 +54,8 @@ clean:
 		./core/v1/index.ts \
 		./core/v1/models \
 		./core/v1/services \
-		./core/v1/core
+		./core/v1/core \
+		./core/v1/client/
 	@echo "Success: Cleaned"
 
 # Show help

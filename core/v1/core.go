@@ -13,8 +13,26 @@ import (
 	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
-// Contest defines model for Contest.
-type Contest struct {
+// CheckPermissionRequestModel defines model for CheckPermissionRequestModel.
+type CheckPermissionRequestModel struct {
+	// Permission Permission to check (view, edit, admin)
+	Permission string `json:"permission"`
+
+	// ResourceId ID of the resource
+	ResourceId openapi_types.UUID `json:"resource_id"`
+
+	// ResourceType Type of resource (contest, problem, etc.)
+	ResourceType string `json:"resource_type"`
+}
+
+// CheckPermissionResponseModel defines model for CheckPermissionResponseModel.
+type CheckPermissionResponseModel struct {
+	// Allowed Whether the user has the requested permission
+	Allowed bool `json:"allowed"`
+}
+
+// ContestModel defines model for ContestModel.
+type ContestModel struct {
 	CreatedAt      time.Time          `json:"created_at"`
 	Id             openapi_types.UUID `json:"id"`
 	IsPrivate      bool               `json:"is_private"`
@@ -23,8 +41,19 @@ type Contest struct {
 	UpdatedAt      time.Time          `json:"updated_at"`
 }
 
-// ContestProblem defines model for ContestProblem.
-type ContestProblem struct {
+// ContestProblemListItemModel defines model for ContestProblemListItemModel.
+type ContestProblemListItemModel struct {
+	CreatedAt   time.Time          `json:"created_at"`
+	MemoryLimit int32              `json:"memory_limit"`
+	Position    int32              `json:"position"`
+	ProblemId   openapi_types.UUID `json:"problem_id"`
+	TimeLimit   int32              `json:"time_limit"`
+	Title       string             `json:"title"`
+	UpdatedAt   time.Time          `json:"updated_at"`
+}
+
+// ContestProblemModel defines model for ContestProblemModel.
+type ContestProblemModel struct {
 	CreatedAt        time.Time          `json:"created_at"`
 	InputFormatHtml  string             `json:"input_format_html"`
 	LegendHtml       string             `json:"legend_html"`
@@ -39,101 +68,118 @@ type ContestProblem struct {
 	UpdatedAt        time.Time          `json:"updated_at"`
 }
 
-// ContestProblemListItem defines model for ContestProblemListItem.
-type ContestProblemListItem struct {
-	CreatedAt   time.Time          `json:"created_at"`
-	MemoryLimit int32              `json:"memory_limit"`
-	Position    int32              `json:"position"`
-	ProblemId   openapi_types.UUID `json:"problem_id"`
-	TimeLimit   int32              `json:"time_limit"`
-	Title       string             `json:"title"`
-	UpdatedAt   time.Time          `json:"updated_at"`
-}
-
-// CreateSolutionRequest defines model for CreateSolutionRequest.
-type CreateSolutionRequest struct {
+// CreateSolutionRequestModel defines model for CreateSolutionRequestModel.
+type CreateSolutionRequestModel struct {
 	Solution openapi_types.File `json:"solution"`
 }
 
-// CreationResponse defines model for CreationResponse.
-type CreationResponse struct {
+// CreationResponseModel defines model for CreationResponseModel.
+type CreationResponseModel struct {
 	Id openapi_types.UUID `json:"id"`
 }
 
-// GetContestProblemResponse defines model for GetContestProblemResponse.
-type GetContestProblemResponse struct {
-	Problem ContestProblem `json:"problem"`
+// GetContestProblemResponseModel defines model for GetContestProblemResponseModel.
+type GetContestProblemResponseModel struct {
+	Problem ContestProblemModel `json:"problem"`
 }
 
-// GetContestResponse defines model for GetContestResponse.
-type GetContestResponse struct {
-	Contest  Contest                  `json:"contest"`
-	Problems []ContestProblemListItem `json:"problems"`
+// GetContestResponseModel defines model for GetContestResponseModel.
+type GetContestResponseModel struct {
+	Contest  ContestModel                  `json:"contest"`
+	Problems []ContestProblemListItemModel `json:"problems"`
 }
 
-// GetMonitorResponse defines model for GetMonitorResponse.
-type GetMonitorResponse struct {
-	Participants []ParticipantsStat   `json:"participants"`
-	Summary      []ProblemStatSummary `json:"summary"`
+// GetMonitorResponseModel defines model for GetMonitorResponseModel.
+type GetMonitorResponseModel struct {
+	Participants []ParticipantsStatModel   `json:"participants"`
+	Summary      []ProblemStatSummaryModel `json:"summary"`
 }
 
-// GetProblemResponse defines model for GetProblemResponse.
-type GetProblemResponse struct {
-	Problem Problem `json:"problem"`
+// GetProblemResponseModel defines model for GetProblemResponseModel.
+type GetProblemResponseModel struct {
+	Problem ProblemModel `json:"problem"`
 }
 
-// GetSolutionResponse defines model for GetSolutionResponse.
-type GetSolutionResponse struct {
-	Solution Solution `json:"solution"`
+// GetSolutionResponseModel defines model for GetSolutionResponseModel.
+type GetSolutionResponseModel struct {
+	Solution SolutionModel `json:"solution"`
 }
 
-// GetUserResponse defines model for GetUserResponse.
-type GetUserResponse struct {
-	User User `json:"user"`
+// GetTestResultsResponseModel defines model for GetTestResultsResponseModel.
+type GetTestResultsResponseModel struct {
+	TestResults []TestResultModel `json:"test_results"`
 }
 
-// ListContestsResponse defines model for ListContestsResponse.
-type ListContestsResponse struct {
-	Contests   []Contest  `json:"contests"`
-	Pagination Pagination `json:"pagination"`
+// GetUserResponseModel defines model for GetUserResponseModel.
+type GetUserResponseModel struct {
+	User UserModel `json:"user"`
 }
 
-// ListProblemsResponse defines model for ListProblemsResponse.
-type ListProblemsResponse struct {
-	Pagination Pagination         `json:"pagination"`
-	Problems   []ProblemsListItem `json:"problems"`
+// GrantPermissionRequestModel defines model for GrantPermissionRequestModel.
+type GrantPermissionRequestModel struct {
+	// Relation Relation/role to grant (owner, editor, viewer)
+	Relation string `json:"relation"`
+
+	// ResourceId ID of the resource
+	ResourceId openapi_types.UUID `json:"resource_id"`
+
+	// ResourceType Type of resource (contest, problem, etc.)
+	ResourceType string `json:"resource_type"`
+
+	// UserId ID of the user to grant permission to
+	UserId openapi_types.UUID `json:"user_id"`
 }
 
-// ListSolutionsResponse defines model for ListSolutionsResponse.
-type ListSolutionsResponse struct {
-	AccessToken *string             `json:"access-token,omitempty"`
-	Pagination  Pagination          `json:"pagination"`
-	Solutions   []SolutionsListItem `json:"solutions"`
+// ListContestsResponseModel defines model for ListContestsResponseModel.
+type ListContestsResponseModel struct {
+	Contests   []ContestModel  `json:"contests"`
+	Pagination PaginationModel `json:"pagination"`
 }
 
-// ListUsersResponse defines model for ListUsersResponse.
-type ListUsersResponse struct {
-	Pagination Pagination `json:"pagination"`
-	Users      []User     `json:"users"`
+// ListProblemsResponseModel defines model for ListProblemsResponseModel.
+type ListProblemsResponseModel struct {
+	Pagination PaginationModel         `json:"pagination"`
+	Problems   []ProblemsListItemModel `json:"problems"`
 }
 
-// Pagination defines model for Pagination.
-type Pagination struct {
+// ListSolutionsResponseModel defines model for ListSolutionsResponseModel.
+type ListSolutionsResponseModel struct {
+	AccessToken *string                  `json:"access-token,omitempty"`
+	Pagination  PaginationModel          `json:"pagination"`
+	Solutions   []SolutionsListItemModel `json:"solutions"`
+}
+
+// ListUsersResponseModel defines model for ListUsersResponseModel.
+type ListUsersResponseModel struct {
+	Pagination PaginationModel `json:"pagination"`
+	Users      []UserModel     `json:"users"`
+}
+
+// PaginationModel defines model for PaginationModel.
+type PaginationModel struct {
 	Page  int32 `json:"page"`
 	Total int32 `json:"total"`
 }
 
-// ParticipantsStat defines model for ParticipantsStat.
-type ParticipantsStat struct {
-	Attempts []ProblemAttempts  `json:"attempts"`
-	Penalty  int32              `json:"penalty"`
-	Solved   int32              `json:"solved"`
-	UserId   openapi_types.UUID `json:"user_id"`
-	Username string             `json:"username"`
+// ParticipantsStatModel defines model for ParticipantsStatModel.
+type ParticipantsStatModel struct {
+	Attempts []ProblemAttemptsModel `json:"attempts"`
+	Penalty  int32                  `json:"penalty"`
+	Solved   int32                  `json:"solved"`
+	UserId   openapi_types.UUID     `json:"user_id"`
+	Username string                 `json:"username"`
 }
 
-// Problem defines model for Problem.
-type Problem struct {
+// ProblemAttemptsModel defines model for ProblemAttemptsModel.
+type ProblemAttemptsModel struct {
+	FailedAttempts int32              `json:"failed_attempts"`
+	Position       int32              `json:"position"`
+	ProblemId      openapi_types.UUID `json:"problem_id"`
+	State          *int32             `json:"state"`
+}
+
+// ProblemModel defines model for ProblemModel.
+type ProblemModel struct {
 	CreatedAt        time.Time          `json:"created_at"`
 	Id               openapi_types.UUID `json:"id"`
 	InputFormat      string             `json:"input_format"`
@@ -153,16 +199,8 @@ type Problem struct {
 	UpdatedAt        time.Time          `json:"updated_at"`
 }
 
-// ProblemAttempts defines model for ProblemAttempts.
-type ProblemAttempts struct {
-	FailedAttempts int32              `json:"failed_attempts"`
-	Position       int32              `json:"position"`
-	ProblemId      openapi_types.UUID `json:"problem_id"`
-	State          *int32             `json:"state"`
-}
-
-// ProblemStatSummary defines model for ProblemStatSummary.
-type ProblemStatSummary struct {
+// ProblemStatSummaryModel defines model for ProblemStatSummaryModel.
+type ProblemStatSummaryModel struct {
 	FAttempts int32              `json:"f_attempts"`
 	Position  int32              `json:"position"`
 	ProblemId openapi_types.UUID `json:"problem_id"`
@@ -170,8 +208,8 @@ type ProblemStatSummary struct {
 	TAttempts int32              `json:"t_attempts"`
 }
 
-// ProblemsListItem defines model for ProblemsListItem.
-type ProblemsListItem struct {
+// ProblemsListItemModel defines model for ProblemsListItemModel.
+type ProblemsListItemModel struct {
 	CreatedAt   time.Time          `json:"created_at"`
 	Id          openapi_types.UUID `json:"id"`
 	MemoryLimit int32              `json:"memory_limit"`
@@ -180,8 +218,23 @@ type ProblemsListItem struct {
 	UpdatedAt   time.Time          `json:"updated_at"`
 }
 
-// Solution defines model for Solution.
-type Solution struct {
+// RevokePermissionRequestModel defines model for RevokePermissionRequestModel.
+type RevokePermissionRequestModel struct {
+	// Relation Relation/role to revoke (owner, editor, viewer)
+	Relation string `json:"relation"`
+
+	// ResourceId ID of the resource
+	ResourceId openapi_types.UUID `json:"resource_id"`
+
+	// ResourceType Type of resource (contest, problem, etc.)
+	ResourceType string `json:"resource_type"`
+
+	// UserId ID of the user to revoke permission from
+	UserId openapi_types.UUID `json:"user_id"`
+}
+
+// SolutionModel defines model for SolutionModel.
+type SolutionModel struct {
 	ContestId    openapi_types.UUID `json:"contest_id"`
 	ContestTitle string             `json:"contest_title"`
 	CreatedAt    time.Time          `json:"created_at"`
@@ -201,8 +254,8 @@ type Solution struct {
 	Username     string             `json:"username"`
 }
 
-// SolutionsListItem defines model for SolutionsListItem.
-type SolutionsListItem struct {
+// SolutionsListItemModel defines model for SolutionsListItemModel.
+type SolutionsListItemModel struct {
 	ContestId    openapi_types.UUID `json:"contest_id"`
 	ContestTitle string             `json:"contest_title"`
 	CreatedAt    time.Time          `json:"created_at"`
@@ -221,15 +274,38 @@ type SolutionsListItem struct {
 	Username     string             `json:"username"`
 }
 
-// UpdateContestRequest defines model for UpdateContestRequest.
-type UpdateContestRequest struct {
+// TestResultModel defines model for TestResultModel.
+type TestResultModel struct {
+	CompileOutput *string            `json:"compile_output"`
+	CreatedAt     time.Time          `json:"created_at"`
+	GroupId       *int32             `json:"group_id"`
+	GroupName     *string            `json:"group_name"`
+	Id            openapi_types.UUID `json:"id"`
+
+	// MemoryKb Memory usage in kilobytes
+	MemoryKb   int32              `json:"memory_kb"`
+	Message    *string            `json:"message"`
+	Passed     bool               `json:"passed"`
+	SolutionId openapi_types.UUID `json:"solution_id"`
+	Stderr     *string            `json:"stderr"`
+	Stdout     *string            `json:"stdout"`
+	TestName   string             `json:"test_name"`
+	TestNumber int32              `json:"test_number"`
+
+	// TimeMs Execution time in milliseconds
+	TimeMs  int32 `json:"time_ms"`
+	Verdict int32 `json:"verdict"`
+}
+
+// UpdateContestRequestModel defines model for UpdateContestRequestModel.
+type UpdateContestRequestModel struct {
 	IsPrivate      *bool   `json:"is_private,omitempty"`
 	MonitorEnabled *bool   `json:"monitor_enabled,omitempty"`
 	Title          *string `json:"title,omitempty"`
 }
 
-// UpdateProblemRequest defines model for UpdateProblemRequest.
-type UpdateProblemRequest struct {
+// UpdateProblemRequestModel defines model for UpdateProblemRequestModel.
+type UpdateProblemRequestModel struct {
 	InputFormat  *string `json:"input_format,omitempty"`
 	IsPrivate    *bool   `json:"is_private,omitempty"`
 	Legend       *string `json:"legend,omitempty"`
@@ -241,13 +317,13 @@ type UpdateProblemRequest struct {
 	Title        *string `json:"title,omitempty"`
 }
 
-// UploadProblemRequest defines model for UploadProblemRequest.
-type UploadProblemRequest struct {
+// UploadProblemRequestModel defines model for UploadProblemRequestModel.
+type UploadProblemRequestModel struct {
 	Archive openapi_types.File `json:"archive"`
 }
 
-// User defines model for User.
-type User struct {
+// UserModel defines model for UserModel.
+type UserModel struct {
 	CreatedAt time.Time          `json:"createdAt"`
 	Id        openapi_types.UUID `json:"id"`
 	Role      string             `json:"role"`
@@ -341,16 +417,25 @@ type GetUsersParams struct {
 }
 
 // UpdateContestJSONRequestBody defines body for UpdateContest for application/json ContentType.
-type UpdateContestJSONRequestBody = UpdateContestRequest
+type UpdateContestJSONRequestBody = UpdateContestRequestModel
+
+// CheckPermissionJSONRequestBody defines body for CheckPermission for application/json ContentType.
+type CheckPermissionJSONRequestBody = CheckPermissionRequestModel
+
+// GrantPermissionJSONRequestBody defines body for GrantPermission for application/json ContentType.
+type GrantPermissionJSONRequestBody = GrantPermissionRequestModel
+
+// RevokePermissionJSONRequestBody defines body for RevokePermission for application/json ContentType.
+type RevokePermissionJSONRequestBody = RevokePermissionRequestModel
 
 // UpdateProblemJSONRequestBody defines body for UpdateProblem for application/json ContentType.
-type UpdateProblemJSONRequestBody = UpdateProblemRequest
+type UpdateProblemJSONRequestBody = UpdateProblemRequestModel
 
 // UploadProblemMultipartRequestBody defines body for UploadProblem for multipart/form-data ContentType.
-type UploadProblemMultipartRequestBody = UploadProblemRequest
+type UploadProblemMultipartRequestBody = UploadProblemRequestModel
 
 // CreateSolutionMultipartRequestBody defines body for CreateSolution for multipart/form-data ContentType.
-type CreateSolutionMultipartRequestBody = CreateSolutionRequest
+type CreateSolutionMultipartRequestBody = CreateSolutionRequestModel
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
@@ -394,6 +479,15 @@ type ServerInterface interface {
 	// (GET /health)
 	GetHealth(c *fiber.Ctx) error
 
+	// (POST /permissions/check)
+	CheckPermission(c *fiber.Ctx) error
+
+	// (POST /permissions/grant)
+	GrantPermission(c *fiber.Ctx) error
+
+	// (POST /permissions/revoke)
+	RevokePermission(c *fiber.Ctx) error
+
 	// (GET /problems)
 	ListProblems(c *fiber.Ctx, params ListProblemsParams) error
 
@@ -420,6 +514,9 @@ type ServerInterface interface {
 
 	// (GET /solutions/{solution_id})
 	GetSolution(c *fiber.Ctx, solutionId openapi_types.UUID) error
+
+	// (GET /solutions/{solution_id}/test-results)
+	GetTestResults(c *fiber.Ctx, solutionId openapi_types.UUID) error
 
 	// (GET /users)
 	GetUsers(c *fiber.Ctx, params GetUsersParams) error
@@ -831,6 +928,24 @@ func (siw *ServerInterfaceWrapper) GetHealth(c *fiber.Ctx) error {
 	return siw.Handler.GetHealth(c)
 }
 
+// CheckPermission operation middleware
+func (siw *ServerInterfaceWrapper) CheckPermission(c *fiber.Ctx) error {
+
+	return siw.Handler.CheckPermission(c)
+}
+
+// GrantPermission operation middleware
+func (siw *ServerInterfaceWrapper) GrantPermission(c *fiber.Ctx) error {
+
+	return siw.Handler.GrantPermission(c)
+}
+
+// RevokePermission operation middleware
+func (siw *ServerInterfaceWrapper) RevokePermission(c *fiber.Ctx) error {
+
+	return siw.Handler.RevokePermission(c)
+}
+
 // ListProblems operation middleware
 func (siw *ServerInterfaceWrapper) ListProblems(c *fiber.Ctx) error {
 
@@ -1169,6 +1284,22 @@ func (siw *ServerInterfaceWrapper) GetSolution(c *fiber.Ctx) error {
 	return siw.Handler.GetSolution(c, solutionId)
 }
 
+// GetTestResults operation middleware
+func (siw *ServerInterfaceWrapper) GetTestResults(c *fiber.Ctx) error {
+
+	var err error
+
+	// ------------- Path parameter "solution_id" -------------
+	var solutionId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "solution_id", c.Params("solution_id"), &solutionId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("Invalid format for parameter solution_id: %w", err).Error())
+	}
+
+	return siw.Handler.GetTestResults(c, solutionId)
+}
+
 // GetUsers operation middleware
 func (siw *ServerInterfaceWrapper) GetUsers(c *fiber.Ctx) error {
 
@@ -1299,6 +1430,12 @@ func RegisterHandlersWithOptions(router fiber.Router, si ServerInterface, option
 
 	router.Get(options.BaseURL+"/health", wrapper.GetHealth)
 
+	router.Post(options.BaseURL+"/permissions/check", wrapper.CheckPermission)
+
+	router.Post(options.BaseURL+"/permissions/grant", wrapper.GrantPermission)
+
+	router.Post(options.BaseURL+"/permissions/revoke", wrapper.RevokePermission)
+
 	router.Get(options.BaseURL+"/problems", wrapper.ListProblems)
 
 	router.Post(options.BaseURL+"/problems", wrapper.CreateProblem)
@@ -1316,6 +1453,8 @@ func RegisterHandlersWithOptions(router fiber.Router, si ServerInterface, option
 	router.Post(options.BaseURL+"/solutions", wrapper.CreateSolution)
 
 	router.Get(options.BaseURL+"/solutions/:solution_id", wrapper.GetSolution)
+
+	router.Get(options.BaseURL+"/solutions/:solution_id/test-results", wrapper.GetTestResults)
 
 	router.Get(options.BaseURL+"/users", wrapper.GetUsers)
 

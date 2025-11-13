@@ -2,27 +2,32 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateSolutionRequest } from '../models/CreateSolutionRequest';
-import type { CreationResponse } from '../models/CreationResponse';
-import type { GetContestProblemResponse } from '../models/GetContestProblemResponse';
-import type { GetContestResponse } from '../models/GetContestResponse';
-import type { GetMonitorResponse } from '../models/GetMonitorResponse';
-import type { GetProblemResponse } from '../models/GetProblemResponse';
-import type { GetSolutionResponse } from '../models/GetSolutionResponse';
-import type { GetUserResponse } from '../models/GetUserResponse';
-import type { ListContestsResponse } from '../models/ListContestsResponse';
-import type { ListProblemsResponse } from '../models/ListProblemsResponse';
-import type { ListSolutionsResponse } from '../models/ListSolutionsResponse';
-import type { ListUsersResponse } from '../models/ListUsersResponse';
-import type { UpdateContestRequest } from '../models/UpdateContestRequest';
-import type { UpdateProblemRequest } from '../models/UpdateProblemRequest';
-import type { UploadProblemRequest } from '../models/UploadProblemRequest';
+import type { CheckPermissionRequestModel } from '../models/CheckPermissionRequestModel';
+import type { CheckPermissionResponseModel } from '../models/CheckPermissionResponseModel';
+import type { CreateSolutionRequestModel } from '../models/CreateSolutionRequestModel';
+import type { CreationResponseModel } from '../models/CreationResponseModel';
+import type { GetContestProblemResponseModel } from '../models/GetContestProblemResponseModel';
+import type { GetContestResponseModel } from '../models/GetContestResponseModel';
+import type { GetMonitorResponseModel } from '../models/GetMonitorResponseModel';
+import type { GetProblemResponseModel } from '../models/GetProblemResponseModel';
+import type { GetSolutionResponseModel } from '../models/GetSolutionResponseModel';
+import type { GetTestResultsResponseModel } from '../models/GetTestResultsResponseModel';
+import type { GetUserResponseModel } from '../models/GetUserResponseModel';
+import type { GrantPermissionRequestModel } from '../models/GrantPermissionRequestModel';
+import type { ListContestsResponseModel } from '../models/ListContestsResponseModel';
+import type { ListProblemsResponseModel } from '../models/ListProblemsResponseModel';
+import type { ListSolutionsResponseModel } from '../models/ListSolutionsResponseModel';
+import type { ListUsersResponseModel } from '../models/ListUsersResponseModel';
+import type { RevokePermissionRequestModel } from '../models/RevokePermissionRequestModel';
+import type { UpdateContestRequestModel } from '../models/UpdateContestRequestModel';
+import type { UpdateProblemRequestModel } from '../models/UpdateProblemRequestModel';
+import type { UploadProblemRequestModel } from '../models/UploadProblemRequestModel';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DefaultService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns ListProblemsResponse OK
+     * @returns ListProblemsResponseModel OK
      * @throws ApiError
      */
     public listProblems({
@@ -45,7 +50,7 @@ export class DefaultService {
          * Filter by owner. Use 'me' to get user's private problems
          */
         owner?: string,
-    }): CancelablePromise<ListProblemsResponse> {
+    }): CancelablePromise<ListProblemsResponseModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/problems',
@@ -60,14 +65,14 @@ export class DefaultService {
         });
     }
     /**
-     * @returns CreationResponse OK
+     * @returns CreationResponseModel OK
      * @throws ApiError
      */
     public createProblem({
         title,
     }: {
         title: string,
-    }): CancelablePromise<CreationResponse> {
+    }): CancelablePromise<CreationResponseModel> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/problems',
@@ -77,14 +82,14 @@ export class DefaultService {
         });
     }
     /**
-     * @returns GetProblemResponse OK
+     * @returns GetProblemResponseModel OK
      * @throws ApiError
      */
     public getProblem({
         id,
     }: {
         id: string,
-    }): CancelablePromise<GetProblemResponse> {
+    }): CancelablePromise<GetProblemResponseModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/problems/{id}',
@@ -119,7 +124,7 @@ export class DefaultService {
         requestBody,
     }: {
         id: string,
-        requestBody: UpdateProblemRequest,
+        requestBody: UpdateProblemRequestModel,
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
@@ -140,7 +145,7 @@ export class DefaultService {
         formData,
     }: {
         id: string,
-        formData: UploadProblemRequest,
+        formData: UploadProblemRequestModel,
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'POST',
@@ -153,7 +158,7 @@ export class DefaultService {
         });
     }
     /**
-     * @returns ListContestsResponse OK
+     * @returns ListContestsResponseModel OK
      * @throws ApiError
      */
     public listContests({
@@ -174,7 +179,7 @@ export class DefaultService {
          * Sort order by creation date. true = newest first (DESC), false = oldest first (ASC)
          */
         descending?: boolean,
-    }): CancelablePromise<ListContestsResponse> {
+    }): CancelablePromise<ListContestsResponseModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/contests',
@@ -188,14 +193,14 @@ export class DefaultService {
         });
     }
     /**
-     * @returns CreationResponse OK
+     * @returns CreationResponseModel OK
      * @throws ApiError
      */
     public createContest({
         title,
     }: {
         title: string,
-    }): CancelablePromise<CreationResponse> {
+    }): CancelablePromise<CreationResponseModel> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/contests',
@@ -205,14 +210,14 @@ export class DefaultService {
         });
     }
     /**
-     * @returns GetContestResponse OK
+     * @returns GetContestResponseModel OK
      * @throws ApiError
      */
     public getContest({
         contestId,
     }: {
         contestId: string,
-    }): CancelablePromise<GetContestResponse> {
+    }): CancelablePromise<GetContestResponseModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/contests/{contest_id}',
@@ -247,7 +252,7 @@ export class DefaultService {
         requestBody,
     }: {
         contestId: string,
-        requestBody: UpdateContestRequest,
+        requestBody: UpdateContestRequestModel,
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'PATCH',
@@ -260,7 +265,7 @@ export class DefaultService {
         });
     }
     /**
-     * @returns CreationResponse OK
+     * @returns CreationResponseModel OK
      * @throws ApiError
      */
     public createContestProblem({
@@ -269,7 +274,7 @@ export class DefaultService {
     }: {
         contestId: string,
         problemId: string,
-    }): CancelablePromise<CreationResponse> {
+    }): CancelablePromise<CreationResponseModel> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/contests/{contest_id}/problems',
@@ -282,7 +287,7 @@ export class DefaultService {
         });
     }
     /**
-     * @returns GetContestProblemResponse OK
+     * @returns GetContestProblemResponseModel OK
      * @throws ApiError
      */
     public getContestProblem({
@@ -291,7 +296,7 @@ export class DefaultService {
     }: {
         problemId: string,
         contestId: string,
-    }): CancelablePromise<GetContestProblemResponse> {
+    }): CancelablePromise<GetContestProblemResponseModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/contests/{contest_id}/problems/{problem_id}',
@@ -322,7 +327,7 @@ export class DefaultService {
         });
     }
     /**
-     * @returns ListUsersResponse OK
+     * @returns ListUsersResponseModel OK
      * @throws ApiError
      */
     public listParticipants({
@@ -333,7 +338,7 @@ export class DefaultService {
         contestId: string,
         page: number,
         pageSize: number,
-    }): CancelablePromise<ListUsersResponse> {
+    }): CancelablePromise<ListUsersResponseModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/contests/{contest_id}/participants',
@@ -347,7 +352,7 @@ export class DefaultService {
         });
     }
     /**
-     * @returns CreationResponse OK
+     * @returns CreationResponseModel OK
      * @throws ApiError
      */
     public createParticipant({
@@ -356,7 +361,7 @@ export class DefaultService {
     }: {
         contestId: string,
         userId: string,
-    }): CancelablePromise<CreationResponse> {
+    }): CancelablePromise<CreationResponseModel> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/contests/{contest_id}/participants',
@@ -391,7 +396,7 @@ export class DefaultService {
         });
     }
     /**
-     * @returns CreationResponse OK
+     * @returns CreationResponseModel OK
      * @throws ApiError
      */
     public createSolution({
@@ -403,8 +408,8 @@ export class DefaultService {
         problemId: string,
         contestId: string,
         language: number,
-        formData: CreateSolutionRequest,
-    }): CancelablePromise<CreationResponse> {
+        formData: CreateSolutionRequestModel,
+    }): CancelablePromise<CreationResponseModel> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/solutions',
@@ -418,7 +423,7 @@ export class DefaultService {
         });
     }
     /**
-     * @returns ListSolutionsResponse OK
+     * @returns ListSolutionsResponseModel OK
      * @throws ApiError
      */
     public listSolutions({
@@ -439,7 +444,7 @@ export class DefaultService {
         state?: number,
         order?: number,
         language?: number,
-    }): CancelablePromise<ListSolutionsResponse> {
+    }): CancelablePromise<ListSolutionsResponseModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/solutions',
@@ -456,14 +461,14 @@ export class DefaultService {
         });
     }
     /**
-     * @returns GetSolutionResponse OK
+     * @returns GetSolutionResponseModel OK
      * @throws ApiError
      */
     public getSolution({
         solutionId,
     }: {
         solutionId: string,
-    }): CancelablePromise<GetSolutionResponse> {
+    }): CancelablePromise<GetSolutionResponseModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/solutions/{solution_id}',
@@ -473,14 +478,31 @@ export class DefaultService {
         });
     }
     /**
-     * @returns GetMonitorResponse OK
+     * @returns GetTestResultsResponseModel OK
+     * @throws ApiError
+     */
+    public getTestResults({
+        solutionId,
+    }: {
+        solutionId: string,
+    }): CancelablePromise<GetTestResultsResponseModel> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/solutions/{solution_id}/test-results',
+            path: {
+                'solution_id': solutionId,
+            },
+        });
+    }
+    /**
+     * @returns GetMonitorResponseModel OK
      * @throws ApiError
      */
     public getMonitor({
         contestId,
     }: {
         contestId: string,
-    }): CancelablePromise<GetMonitorResponse> {
+    }): CancelablePromise<GetMonitorResponseModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/contests/{contest_id}/monitor',
@@ -503,17 +525,17 @@ export class DefaultService {
         });
     }
     /**
-     * @returns GetUserResponse OK
+     * @returns GetUserResponseModel OK
      * @throws ApiError
      */
-    public getMe(): CancelablePromise<GetUserResponse> {
+    public getMe(): CancelablePromise<GetUserResponseModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/users/me',
         });
     }
     /**
-     * @returns ListUsersResponse OK
+     * @returns ListUsersResponseModel OK
      * @throws ApiError
      */
     public getUsers({
@@ -526,7 +548,7 @@ export class DefaultService {
         pageSize: number,
         search?: string,
         role?: string,
-    }): CancelablePromise<ListUsersResponse> {
+    }): CancelablePromise<ListUsersResponseModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/users',
@@ -539,20 +561,68 @@ export class DefaultService {
         });
     }
     /**
-     * @returns GetUserResponse OK
+     * @returns GetUserResponseModel OK
      * @throws ApiError
      */
     public getUser({
         id,
     }: {
         id: string,
-    }): CancelablePromise<GetUserResponse> {
+    }): CancelablePromise<GetUserResponseModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/users/{id}',
             path: {
                 'id': id,
             },
+        });
+    }
+    /**
+     * @returns CheckPermissionResponseModel OK
+     * @throws ApiError
+     */
+    public checkPermission({
+        requestBody,
+    }: {
+        requestBody: CheckPermissionRequestModel,
+    }): CancelablePromise<CheckPermissionResponseModel> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/permissions/check',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns any OK
+     * @throws ApiError
+     */
+    public grantPermission({
+        requestBody,
+    }: {
+        requestBody: GrantPermissionRequestModel,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/permissions/grant',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns any OK
+     * @throws ApiError
+     */
+    public revokePermission({
+        requestBody,
+    }: {
+        requestBody: RevokePermissionRequestModel,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/permissions/revoke',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }

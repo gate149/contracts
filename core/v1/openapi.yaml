@@ -49,7 +49,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ListProblemsResponse"
+                $ref: "#/components/schemas/ListProblemsResponseModel"
     post:
       operationId: CreateProblem
       parameters:
@@ -65,7 +65,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreationResponse"
+                $ref: "#/components/schemas/CreationResponseModel"
   /problems/{id}:
     get:
       operationId: GetProblem
@@ -82,7 +82,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetProblemResponse"
+                $ref: "#/components/schemas/GetProblemResponseModel"
     delete:
       operationId: DeleteProblem
       parameters:
@@ -110,7 +110,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateProblemRequest"
+              $ref: "#/components/schemas/UpdateProblemRequestModel"
       responses:
         "200":
           description: OK
@@ -129,7 +129,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: "#/components/schemas/UploadProblemRequest"
+              $ref: "#/components/schemas/UploadProblemRequestModel"
       responses:
         "200":
           description: OK
@@ -177,7 +177,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ListContestsResponse"
+                $ref: "#/components/schemas/ListContestsResponseModel"
     post:
       operationId: CreateContest
       parameters:
@@ -193,7 +193,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreationResponse"
+                $ref: "#/components/schemas/CreationResponseModel"
   /contests/{contest_id}:
     get:
       operationId: GetContest
@@ -210,7 +210,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetContestResponse"
+                $ref: "#/components/schemas/GetContestResponseModel"
     delete:
       operationId: DeleteContest
       parameters:
@@ -237,7 +237,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateContestRequest"
+              $ref: "#/components/schemas/UpdateContestRequestModel"
       responses:
         "200":
           description: OK
@@ -263,7 +263,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreationResponse"
+                $ref: "#/components/schemas/CreationResponseModel"
   /contests/{contest_id}/problems/{problem_id}:
     get:
       operationId: GetContestProblem
@@ -286,7 +286,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetContestProblemResponse"
+                $ref: "#/components/schemas/GetContestProblemResponseModel"
     delete:
       operationId: DeleteContestProblem
       parameters:
@@ -335,7 +335,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ListUsersResponse"
+                $ref: "#/components/schemas/ListUsersResponseModel"
     post:
       operationId: CreateParticipant
       parameters:
@@ -357,7 +357,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreationResponse"
+                $ref: "#/components/schemas/CreationResponseModel"
     delete:
       operationId: DeleteParticipant
       parameters:
@@ -404,14 +404,14 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: "#/components/schemas/CreateSolutionRequest"
+              $ref: "#/components/schemas/CreateSolutionRequestModel"
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreationResponse"
+                $ref: "#/components/schemas/CreationResponseModel"
     get:
       operationId: ListSolutions
       parameters:
@@ -468,7 +468,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ListSolutionsResponse"
+                $ref: "#/components/schemas/ListSolutionsResponseModel"
   /solutions/{solution_id}:
     get:
       operationId: GetSolution
@@ -485,7 +485,24 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetSolutionResponse"
+                $ref: "#/components/schemas/GetSolutionResponseModel"
+  /solutions/{solution_id}/test-results:
+    get:
+      operationId: GetTestResults
+      parameters:
+        - name: solution_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetTestResultsResponseModel"
   /contests/{contest_id}/monitor:
     get:
       operationId: GetMonitor
@@ -502,7 +519,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetMonitorResponse"
+                $ref: "#/components/schemas/GetMonitorResponseModel"
   /health:
     get:
       operationId: GetHealth
@@ -529,7 +546,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetUserResponse"
+                $ref: "#/components/schemas/GetUserResponseModel"
   /users:
     get:
       operationId: GetUsers
@@ -564,7 +581,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ListUsersResponse"
+                $ref: "#/components/schemas/ListUsersResponseModel"
   /users/{id}:
     get:
       operationId: GetUser
@@ -581,10 +598,50 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetUserResponse"
+                $ref: "#/components/schemas/GetUserResponseModel"
+  /permissions/check:
+    post:
+      operationId: CheckPermission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CheckPermissionRequestModel"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CheckPermissionResponseModel"
+  /permissions/grant:
+    post:
+      operationId: GrantPermission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GrantPermissionRequestModel"
+      responses:
+        "200":
+          description: OK
+  /permissions/revoke:
+    post:
+      operationId: RevokePermission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RevokePermissionRequestModel"
+      responses:
+        "200":
+          description: OK
 components:
   schemas:
-    CreationResponse:
+    CreationResponseModel:
       type: object
       required:
         - id
@@ -592,7 +649,7 @@ components:
         id:
           type: string
           format: uuid
-    Pagination:
+    PaginationModel:
       type: object
       required:
         - page
@@ -606,7 +663,7 @@ components:
           type: integer
           format: int32
           example: 10
-    Problem:
+    ProblemModel:
       type: object
       required:
         - id
@@ -676,7 +733,7 @@ components:
         updated_at:
           type: string
           format: date-time
-    ProblemsListItem:
+    ProblemsListItemModel:
       type: object
       required:
         - id
@@ -703,7 +760,7 @@ components:
         updated_at:
           type: string
           format: date-time
-    ListProblemsResponse:
+    ListProblemsResponseModel:
       type: object
       required:
         - problems
@@ -712,17 +769,17 @@ components:
         problems:
           type: array
           items:
-            $ref: "#/components/schemas/ProblemsListItem"
+            $ref: "#/components/schemas/ProblemsListItemModel"
         pagination:
-          $ref: "#/components/schemas/Pagination"
-    GetProblemResponse:
+          $ref: "#/components/schemas/PaginationModel"
+    GetProblemResponseModel:
       type: object
       required:
         - problem
       properties:
         problem:
-          $ref: "#/components/schemas/Problem"
-    ContestProblem:
+          $ref: "#/components/schemas/ProblemModel"
+    ContestProblemModel:
       type: object
       required:
         - problem_id
@@ -777,14 +834,14 @@ components:
         updated_at:
           type: string
           format: date-time
-    GetContestProblemResponse:
+    GetContestProblemResponseModel:
       type: object
       required:
         - problem
       properties:
         problem:
-          $ref: "#/components/schemas/ContestProblem"
-    Contest:
+          $ref: "#/components/schemas/ContestProblemModel"
+    ContestModel:
       type: object
       required:
         - id
@@ -812,7 +869,7 @@ components:
         updated_at:
           type: string
           format: date-time
-    ListContestsResponse:
+    ListContestsResponseModel:
       type: object
       required:
         - contests
@@ -821,10 +878,10 @@ components:
         contests:
           type: array
           items:
-            $ref: "#/components/schemas/Contest"
+            $ref: "#/components/schemas/ContestModel"
         pagination:
-          $ref: "#/components/schemas/Pagination"
-    ContestProblemListItem:
+          $ref: "#/components/schemas/PaginationModel"
+    ContestProblemListItemModel:
       type: object
       required:
         - problem_id
@@ -858,19 +915,19 @@ components:
         updated_at:
           type: string
           format: date-time
-    GetContestResponse:
+    GetContestResponseModel:
       type: object
       required:
         - contest
         - problems
       properties:
         contest:
-          $ref: "#/components/schemas/Contest"
+          $ref: "#/components/schemas/ContestModel"
         problems:
           type: array
           items:
-            $ref: "#/components/schemas/ContestProblemListItem"
-    UpdateProblemRequest:
+            $ref: "#/components/schemas/ContestProblemListItemModel"
+    UpdateProblemRequestModel:
       type: object
       properties:
         title:
@@ -897,7 +954,7 @@ components:
         is_private:
           type: boolean
           example: true
-    UploadProblemRequest:
+    UploadProblemRequestModel:
       type: object
       required:
         - archive
@@ -905,7 +962,7 @@ components:
         archive:
           type: string
           format: binary
-    UpdateContestRequest:
+    UpdateContestRequestModel:
       type: object
       properties:
         title:
@@ -917,7 +974,7 @@ components:
         monitor_enabled:
           type: boolean
           example: false
-    CreateSolutionRequest:
+    CreateSolutionRequestModel:
       type: object
       required:
         - solution
@@ -925,7 +982,7 @@ components:
         solution:
           type: string
           format: binary
-    ListSolutionsResponse:
+    ListSolutionsResponseModel:
       type: object
       required:
         - solutions
@@ -936,10 +993,10 @@ components:
         solutions:
           type: array
           items:
-            $ref: "#/components/schemas/SolutionsListItem"
+            $ref: "#/components/schemas/SolutionsListItemModel"
         pagination:
-          $ref: "#/components/schemas/Pagination"
-    SolutionsListItem:
+          $ref: "#/components/schemas/PaginationModel"
+    SolutionsListItemModel:
       type: object
       required:
         - id
@@ -1026,7 +1083,7 @@ components:
         created_at:
           type: string
           format: date-time
-    Solution:
+    SolutionModel:
       type: object
       required:
         - id
@@ -1119,14 +1176,14 @@ components:
         created_at:
           type: string
           format: date-time
-    GetSolutionResponse:
+    GetSolutionResponseModel:
       type: object
       required:
         - solution
       properties:
         solution:
-          $ref: "#/components/schemas/Solution"
-    GetMonitorResponse:
+          $ref: "#/components/schemas/SolutionModel"
+    GetMonitorResponseModel:
       type: object
       required:
         - participants
@@ -1135,12 +1192,12 @@ components:
         participants:
           type: array
           items:
-            $ref: "#/components/schemas/ParticipantsStat"
+            $ref: "#/components/schemas/ParticipantsStatModel"
         summary:
           type: array
           items:
-            $ref: "#/components/schemas/ProblemStatSummary"
-    ProblemStatSummary:
+            $ref: "#/components/schemas/ProblemStatSummaryModel"
+    ProblemStatSummaryModel:
       type: object
       required:
         - problem_id
@@ -1168,7 +1225,7 @@ components:
           type: integer
           format: int32
           example: 1
-    ParticipantsStat:
+    ParticipantsStatModel:
       type: object
       required:
         - user_id
@@ -1194,8 +1251,8 @@ components:
         attempts:
           type: array
           items:
-            $ref: "#/components/schemas/ProblemAttempts"
-    ProblemAttempts:
+            $ref: "#/components/schemas/ProblemAttemptsModel"
+    ProblemAttemptsModel:
       type: object
       required:
         - problem_id
@@ -1220,14 +1277,14 @@ components:
           format: int32
           nullable: true
           example: 1
-    GetUserResponse:
+    GetUserResponseModel:
       type: object
       required:
         - user
       properties:
         user:
-          $ref: "#/components/schemas/User"
-    User:
+          $ref: "#/components/schemas/UserModel"
+    UserModel:
       type: object
       required:
         - id
@@ -1250,7 +1307,7 @@ components:
           format: date-time
         role:
           type: string
-    ListUsersResponse:
+    ListUsersResponseModel:
       type: object
       required:
         - users
@@ -1259,11 +1316,155 @@ components:
         users:
           type: array
           items:
-            $ref: "#/components/schemas/User"
+            $ref: "#/components/schemas/UserModel"
         pagination:
-          $ref: "#/components/schemas/Pagination"
-  # securitySchemes:
-  #   cookieAuth:
-  #     type: apiKey
-  #     in: cookie
-  #     name: ory_kratos_session
+          $ref: "#/components/schemas/PaginationModel"
+    TestResultModel:
+      type: object
+      required:
+        - id
+        - solution_id
+        - test_name
+        - test_number
+        - passed
+        - verdict
+        - time_ms
+        - memory_kb
+        - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+        solution_id:
+          type: string
+          format: uuid
+        test_name:
+          type: string
+          example: "01"
+        test_number:
+          type: integer
+          format: int32
+          example: 1
+        passed:
+          type: boolean
+        verdict:
+          type: integer
+          format: int32
+          example: 200
+        time_ms:
+          type: integer
+          format: int32
+          example: 150
+          description: "Execution time in milliseconds"
+        memory_kb:
+          type: integer
+          format: int32
+          example: 2048
+          description: "Memory usage in kilobytes"
+        stdout:
+          type: string
+          nullable: true
+        stderr:
+          type: string
+          nullable: true
+        compile_output:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+        group_id:
+          type: integer
+          format: int32
+          nullable: true
+        group_name:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+    GetTestResultsResponseModel:
+      type: object
+      required:
+        - test_results
+      properties:
+        test_results:
+          type: array
+          items:
+            $ref: "#/components/schemas/TestResultModel"
+    CheckPermissionRequestModel:
+      type: object
+      required:
+        - resource_type
+        - resource_id
+        - permission
+      properties:
+        resource_type:
+          type: string
+          example: "contest"
+          description: "Type of resource (contest, problem, etc.)"
+        resource_id:
+          type: string
+          format: uuid
+          description: "ID of the resource"
+        permission:
+          type: string
+          example: "view"
+          description: "Permission to check (view, edit, admin)"
+    CheckPermissionResponseModel:
+      type: object
+      required:
+        - allowed
+      properties:
+        allowed:
+          type: boolean
+          example: true
+          description: "Whether the user has the requested permission"
+    GrantPermissionRequestModel:
+      type: object
+      required:
+        - resource_type
+        - resource_id
+        - user_id
+        - relation
+      properties:
+        resource_type:
+          type: string
+          example: "contest"
+          description: "Type of resource (contest, problem, etc.)"
+        resource_id:
+          type: string
+          format: uuid
+          description: "ID of the resource"
+        user_id:
+          type: string
+          format: uuid
+          description: "ID of the user to grant permission to"
+        relation:
+          type: string
+          example: "owner"
+          description: "Relation/role to grant (owner, editor, viewer)"
+    RevokePermissionRequestModel:
+      type: object
+      required:
+        - resource_type
+        - resource_id
+        - user_id
+        - relation
+      properties:
+        resource_type:
+          type: string
+          example: "contest"
+          description: "Type of resource (contest, problem, etc.)"
+        resource_id:
+          type: string
+          format: uuid
+          description: "ID of the resource"
+        user_id:
+          type: string
+          format: uuid
+          description: "ID of the user to revoke permission from"
+        relation:
+          type: string
+          example: "owner"
+          description: "Relation/role to revoke (owner, editor, viewer)"
